@@ -345,6 +345,15 @@
 		return count, destination_number, toll_allow;
 	end
 
+--Getting domain_uuid form v_domains when domain_uuid is Nil
+	if(domain_uuid == nil or domain_uuid == '') then
+		dbh:query("SELECT domain_uuid FROM v_domains WHERE domain_name = '"..domain_name.."'", function(row)
+                	freeswitch.consoleLog("INFO","Geting domain_uuid from domain name--------------- :"..domain_name);    
+			domain_uuid = row.domain_uuid;       
+			freeswitch.consoleLog("INFO","Geting domain_uuid from domain name--------------- :"..domain_uuid);
+                end);	
+	end
+
 --process the ring group
 	if (ring_group_forward_enabled == "true" and string.len(ring_group_forward_destination) > 0) then
 		--forward the ring group
